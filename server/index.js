@@ -40,8 +40,13 @@ app.get("/", (req, res) => {
     jsBundle: DEBUG ? "../client" : MANIFEST["src/main.jsx"]["file"],
     cssBundle: DEBUG ? "../client" : MANIFEST["src/main.jsx"]["css"][0],
     assetUrl: process.env.ASSET_URL || "http://localhost:5173",
+    entryPoint: "main.jsx",
     layout: false
   });
+});
+
+app.get("/main", (req, res) => {
+    res.redirect("/")
 });
 
 server.listen(3000, () => {

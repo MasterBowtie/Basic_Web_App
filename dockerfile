@@ -17,3 +17,8 @@ RUN npm install
 COPY ./server .
 EXPOSE 3000
 CMD [ "node", "./index.js" ]
+
+FROM mysql:latest
+ENV MYSQL_DATABASE mydb
+COPY ./database /docker-entrypoint-initdb.d/
+

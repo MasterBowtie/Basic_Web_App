@@ -12,7 +12,9 @@ services:
       - /server/node_modules
     depends_on:
       - client
+      - phpmyadmin
     restart: unless-stopped
+
 
 
   client:
@@ -25,3 +27,28 @@ services:
       - ./client:/client
       - /client/node_modules
     restart: unless-stopped
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: sample
+      MYSQL_DATABASE: mydb
+    ports: 
+      - "3307:3306"
+    volumes:
+      - my-db-volume:/var/lib/mysql
+      - ./db-init:/docker-entrypoint-initdb.d
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: sample
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+  
+volumes:
+  my-db-volume:

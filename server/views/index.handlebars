@@ -26,7 +26,8 @@
     <div id="root">Loading...</div>
     {{#if debug}}
       <script type="module" src="{{assetUrl}}/@vite/client"></script>
-      <script type="module" src="{{assetUrl}}/src/main.jsx"></script>
+      {{!-- EntryPoint helps handle different "pages" --}}
+      <script type="module" src="{{assetUrl}}/src/{{entryPoint}}"></script>
     {{else}}
       <script type="module" src="/{{jsBundle}}"></script>
     {{/if}}
