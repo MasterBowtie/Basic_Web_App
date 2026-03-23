@@ -41,6 +41,7 @@ app.get("/", (req, res) => {
     cssBundle: DEBUG ? "../client" : MANIFEST["src/main.jsx"]["css"][0],
     assetUrl: process.env.ASSET_URL || "http://localhost:5173",
     entryPoint: "main.jsx",
+    pageTitle: "Main Page",
     layout: false
   });
 });
