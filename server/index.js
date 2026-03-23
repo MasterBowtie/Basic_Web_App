@@ -1,4 +1,51 @@
 import {fileURLToPath} from "node:url"
+import express from "express"
+import { engine } from "express-handlebars"
+import dotenv from "dotenv"
+import * as http from "node:http";
+
+dotenv.config();
+
+const DEBUG = process.env.NODE_ENV !== "production";
+const MANIFEST = DEBUG ? {} : JSON.parse(fs.readFileSync("static/.vite/manifest.json").toString())
+
+console.log(process.env.NODE_ENV)
+const app = express();
+const server = http.createServer(app)
+
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './views');
+
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`)
+  next()
+});
+
+if (!DEBUG) {
+  app.use(express.static('static'));
+} else {
+  app.use((req, res, next) => {
+    if (req.url.includes(".")) {
+      res.redirect(`http://localhost:5173${req.url}`)
+    } else {
+      next();
+    }
+  });
+}
+
+app.get("/", (req, res) => {
+  res.render('index', {
+    debug: DEBUG,
+    jsBundle: DEBUG ? "../client" : MANIFEST["src/main.jsx"]["file"],
+    cssBundle: DEBUG ? "../client" : MANIFEST["src/main.jsx"]["css"][0],
+    assetUrl: process.env.ASSET_URL || "http://localhost:5173",
+    layout: false
+  });
+});
+
+server.listen(3000, () => {
+  console.log(`Listening on port http://localhost:${process.env.PORT}...`);
+});
 
 
-console.log("Hello index.js")
