@@ -1,0 +1,13 @@
+.accordian {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s ease;
+}
+
+.accordian.open {
+    max-height: fit-content;
+}
+
+.toggle:hover {
+    cursor:pointer;
+}
