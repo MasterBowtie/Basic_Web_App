@@ -37,6 +37,34 @@ export async function createExpense(amount, budgetIds, created) {
     return expenseId;
 }
 
+// READ Expense
+export async function getExpense(expenseId) {
+    const [rows] = await pool.execute(
+        `SELECT e.*,
+        GROUP_CONCANT(eb.budget_id) as budgets
+        FROM expense e
+        LEFT JOIN expense_budget eb
+        ON e.expense_id = eb.expense_id
+        WHERE e.expense_id = ?
+        GROUP BY e.expense_id`,
+        [expenseId]
+    );
+
+    return rows[0]
+}
+
+// READ Budget
+export async function getBudget(budgetId) {
+    const [rows] = await pool.execute(
+        `SELECT *,
+        FROM budget
+        WHERE budget_id = ?`
+        , [budgetId]
+    );
+    return rows[0]
+}
+
+
 // Get budgets for an expense
 export async function getBudgetsForExpenses(expenseId) {
     const [rows] = await pool.execute(
@@ -60,3 +88,49 @@ export async function getExpensesForBudget(budgetId) {
     );
     return [rows]
 }
+
+// UPDATE Expense
+export async function updateExpense(expenseId, amount, budgetsIds, created) {
+    await pool.execute(
+        `UPDATE expense
+        SET amount = ?,
+        created = ?, 
+        WHERE expense_id = ?`,
+        [amount, created, expenseId]
+    );
+
+    var currentBudgets = await getBudgetsForExpenses(expenseId);
+    var newBudgets = []
+    for (let b of budgetsIds) {
+        if (!currentBudgets.includes(b)) {
+            newBudgets.push(b)
+        }
+    }
+
+    for (let b of newBudgets) {
+        await pool.execute(
+            `INSERT INTO execute_budget (expense_id, budget_id) VALUES (?, ?)`,
+            [expenseId, b]
+        )
+    }
+    return true;
+}
+
+// DELETE expense
+export async function deleteExpense(expenseId) {
+    await pool.execute(
+        `DELETE FROM expense WHERE expense_id = ?`,
+        [expenseId]
+    );
+    return true;
+}
+
+// DELETE budget
+export async function deleteBudget(budgetId) {
+    await pool.execute(
+        `DELETE FROM budget WHERE budget_id = ?`,
+        [budgetId]
+    );
+    return true;
+}
+
