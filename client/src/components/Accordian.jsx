@@ -1,8 +1,7 @@
 import { Children, useState} from "react"
 import "../css/Accordian.css"
+import { SVGAccordianUp, SVGAccordianDown } from "./SVG"
 function Accordian({children}) {
-    // const firstChild = Children.toArray(children)[0]
-    // const rest = Children.toArray(children).slice(1);
     const [active, setActive] = useState(false)
 
 
@@ -12,9 +11,9 @@ function Accordian({children}) {
             <div className={`accordian ${active? "open": ""}`}>
                 {children}
             </div>
-            <p className="toggle" onClick={()=> 
+            <p className="toggle" style={{textAlign: "center"}} onClick={()=> 
                 setActive(!active)}
-            >{active? "retract": "expand"}</p>
+            >{active?  <SVGAccordianUp style={{height: "30px"}}/>: <SVGAccordianDown style={{height: "30px"}}/>}</p>
         </>
     )
 }

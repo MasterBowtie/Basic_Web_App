@@ -34,6 +34,10 @@ h1 {
   line-height: 1.1;
 }
 
+.button {
+  
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -64,4 +68,12 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+svg {
+  height: 40px;
+}
+path {
+  fill: #0b009f;
+  stroke: #0b009f;
 }

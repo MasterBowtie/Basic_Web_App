@@ -10,4 +10,13 @@
 
 .toggle:hover {
     cursor:pointer;
+    background-color: #77777777;
+}
+.toggle:active {
+    background-color: #00000033;
+}
+
+.toggle {
+    background-color: #ffffff33;
+    border-radius: 10px;
 }

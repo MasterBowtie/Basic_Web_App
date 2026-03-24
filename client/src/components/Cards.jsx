@@ -3,7 +3,7 @@ import '../css/Cards.css'
 
 function Card(props) {
     return (
-        <div className='card'>
+        <div className='card' style={props.style}>
             {props.children}
         </div>
     )
