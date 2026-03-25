@@ -1,3 +1,7 @@
 .SVGButton:hover {
     cursor: pointer;
 }
+
+#searchMagnifyingGlass {
+    fill: none !important
+}

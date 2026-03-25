@@ -9,22 +9,14 @@ function Card(props) {
     )
 }
 
-function CardInput({name, value, className}) {
-    const [input, setInput] = useState(value)
+
+function CardMasonry(props) {
 
     return (
-        <input value={input} onChange={(e)=> setInput(e.target.value)} className={className}/>
-    )
-}
-
-
-function CardDisplay(props) {
-
-    return (
-        <div className='display'>
+        <div className='masonry'>
             {props.children}
         </div>
     )
 }
 
-export {Card, CardDisplay, CardInput}
+export {Card, CardMasonry}

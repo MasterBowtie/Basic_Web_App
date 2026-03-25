@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react'
 import './css/App.css'
-import { Card, CardDisplay, CardInput } from './components/Cards'
+import { Card, CardMasonry} from './components/Cards'
 import { Accordian } from './components/Accordian'
-import { SVGPlus } from './components/SVG'
+import { SVGGlass, SVGPlus } from './components/SVG'
+import { Dialog } from './components/Dialog'
+import { HiddenInput } from './components/Input'
 
 
 function App() {
   const [count, setCount] = useState(0)
   const [cards, setCards] = useState([])
+  const [dialogActive, setDialog] = useState(false)
 
   return (
-    <>
+    <div id='App'>
+      <Dialog open={dialogActive}>
+        <div>
+          <HiddenInput value="Dialog Title" className="header"/>
+        </div>
+      </Dialog>
       <h1>Main Basic Page</h1>
 
       {/* <div>
@@ -21,11 +29,13 @@ function App() {
           count is {count}
         </button>
       </div> */}
-      <CardDisplay>
+
+      <CardMasonry>
 
         {cards.map((t, i)=> 
           <Card key={t}>
-            <CardInput name={`Title ${t}`} value={t} className={"header"}/>
+            <HiddenInput name={`Title ${t}`} value={t} classNames={"header testing"}/>
+            <SVGGlass className={"toggle"} onClick={()=> setDialog(!dialogActive)}/>
             <Accordian>
               <div style={{display: 'flex', gap: "1em"}}>
                 <p>body</p>
@@ -40,11 +50,10 @@ function App() {
           <SVGPlus style={{fill: "#000000"}} className={"SVGButton"} onClick={()=> {
             setCount((count) => count + 1); 
             setCards([...cards, `Title ${count+1}`])
-            console.log("I was clicked!")
             }}/>
         </Card>
-      </CardDisplay>
-    </>
+      </CardMasonry>
+    </div>
   )
 }
 

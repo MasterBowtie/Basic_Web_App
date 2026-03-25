@@ -5,6 +5,7 @@
 }
 
 .accordian.open {
+    margin-bottom: 1em;
     max-height: fit-content;
 }
 

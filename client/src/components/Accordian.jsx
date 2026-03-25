@@ -11,9 +11,9 @@ function Accordian({children}) {
             <div className={`accordian ${active? "open": ""}`}>
                 {children}
             </div>
-            <p className="toggle" style={{textAlign: "center"}} onClick={()=> 
+            <button style={{textAlign: "center", width: "100%"}} onClick={()=> 
                 setActive(!active)}
-            >{active?  <SVGAccordianUp style={{height: "30px"}}/>: <SVGAccordianDown style={{height: "30px"}}/>}</p>
+            >{active?  <SVGAccordianUp style={{height: "30px"}}/>: <SVGAccordianDown style={{height: "30px"}}/>}</button>
         </>
     )
 }

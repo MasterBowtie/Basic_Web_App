@@ -3,20 +3,20 @@
 ## Front End
 
 ### Components
-- Accordians
-- Dialog
-- Side Tab
+[X] Accordians
+[ ] Dialog
+[ ] Side Tab
 
 ### Style
-- Buttons
-    - Create/Update
-    - Delete
-    - Expand/Minimize
-- Card
-    - Header
-    - Footer
+[ ] Buttons
+    [ ] Create/Update
+    [ ] Delete
+    [ ] Expand/Minimize
+[ ] Card
+    [ ] Header
+    [ ] Footer
 
 
 ## Back End
 
-- API
+[ ] API
