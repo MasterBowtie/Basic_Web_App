@@ -3,3 +3,6 @@ input.hidden{
     background-color: #0000;
 }
 
+input {
+    border-radius: 10px;
+}
