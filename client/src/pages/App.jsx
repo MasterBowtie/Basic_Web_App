@@ -28,7 +28,7 @@ function App() {
       <CardMasonry>
         {cards.map((t, i)=> 
           <Card key={t}>
-            <div className='cardHeader'>
+            <div className='card-header'>
               <HiddenInput id={`input-${t}`} value={`Title ${i}`} className={"header"}/>
               <SVGGlass className={"toggle"} onClick={()=> {setBudget(true); setBudgetTitle(document.getElementById(`input-${t}`).value);console.log(budgetTitle);}}/>
             </div>

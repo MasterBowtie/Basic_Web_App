@@ -6,3 +6,22 @@ dialog {
     height: 550px;
     border: none;
 }
+
+.dialog {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.dialog.header {
+  align-items: center;
+}
+
+.dialog.body {
+    flex-direction: column;
+    height: 100%;
+}
+
+.dialog.footer {
+    justify-content: right;
+}

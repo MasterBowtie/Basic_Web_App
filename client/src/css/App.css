@@ -35,15 +35,3 @@
 .read-the-docs {
   color: #888;
 }
-
-.dialogHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.cardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
