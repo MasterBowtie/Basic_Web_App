@@ -1,9 +1,9 @@
-INSERT INTO budget (budget_name, budget_period, budget_limit, budget_start, budget_end, budget_active) 
-    VALUES("Furniture", "month", 200.00, "2026-04-01", "2026-04-30", 1);
+INSERT INTO budget (budget_name, budget_period, budget_limit, budget_start, budget_end) 
+    VALUES("Furniture", "month", 200.00, "2026-04-01", "2026-04-30");
 
 
-INSERT INTO budget (budget_name, budget_period, budget_limit, budget_start, budget_end, budget_active) 
-    VALUES("Groceries", "week", 80.00, "2026-03-29", "2026-04-04", 1);
+INSERT INTO budget (budget_name, budget_period, budget_limit, budget_start, budget_end) 
+    VALUES("Groceries", "week", 80.00, "2026-03-29", "2026-04-04");
 
 INSERT INTO expense (expense_name, expense_amount)
     VALUES("Hobby", 20.00)

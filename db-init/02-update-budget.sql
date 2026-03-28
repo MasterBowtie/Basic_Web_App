@@ -1,7 +1,7 @@
 ALTER TABLE budget
     ADD budget_start date,
     ADD budget_end date,
-    ADD budget_active boolean;
+    ADD budget_active boolean DEFAULT 1;
 
 ALTER TABLE expense
     ADD expense_name varchar(255),
