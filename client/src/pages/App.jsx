@@ -6,16 +6,31 @@ import { SVGGlass, SVGPlus, SVGX } from '../components/SVG'
 import { HiddenInput } from '../components/Input'
 import { Dialog } from '../components/Dialog'
 import Budget from './Budget'
+import { useApi } from '../utils/api'
 
 
 
 function App() {
   const [count, setCount] = useState(0)
   const [cards, setCards] = useState([])
+  const [budets, setBudgets] = useState([])
   const [budgetActive, setBudget] = useState(false)
   const [budgetTitle, setBudgetTitle] = useState("")
+  const api = useApi();
 
-  // Push Title to Budget on give card
+  useEffect(() => {
+    const controller = new AbortController()
+    api.get("budget/ids")
+      .then((res) => {
+        console.log(res);
+      }).catch(err => {
+        if (err.name !== "AbortError") {
+          console.error(err)
+        }
+      }) 
+    
+    return () => {controller.abort();}
+  }, [])
 
 
   return (

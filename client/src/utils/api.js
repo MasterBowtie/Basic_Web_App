@@ -26,7 +26,7 @@ class Api {
             const errorBody = await res.json();
             throw new Error(errorBody.message || `HTTP error! status: ${res.status}`);
         }
-        const text = res.text();
+        const text = await res.text();
         return text ? JSON.parse(text): {};
     }
 

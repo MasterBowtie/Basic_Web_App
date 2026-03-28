@@ -3,13 +3,19 @@ import express from "express"
 import { engine } from "express-handlebars"
 import dotenv from "dotenv"
 import * as http from "node:http";
+import { BudgetRepository } from "./modules/database/budget.js";
+import { ExpenseRepository } from "./modules/database/expense.js";
+import { buildBudgetController } from "./controllers/budget_controller.js";
 
 dotenv.config();
 
 const DEBUG = process.env.NODE_ENV !== "production";
 const MANIFEST = DEBUG ? {} : JSON.parse(fs.readFileSync("static/.vite/manifest.json").toString())
 
-console.log(process.env.NODE_ENV)
+// Repositories
+const budgetRepository = BudgetRepository.getInstance();
+const expenseRepository = ExpenseRepository.getInstance();
+
 const app = express();
 const server = http.createServer(app)
 
@@ -49,6 +55,7 @@ app.get("/", (req, res) => {
 app.get("/main", (req, res) => {
     res.redirect("/")
 });
+app.use("/budget", buildBudgetController(budgetRepository));
 
 server.listen(3000, () => {
   console.log(`Listening on port http://localhost:${process.env.PORT}...`);

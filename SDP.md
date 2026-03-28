@@ -3,22 +3,26 @@
 ## Front End
 
 ### Components
-[X] Accordians
-[ ] Dialog
-    [ ] Budget
-    [ ] Expense
-[ ] Side Tab
+- [x] Accordians
+- [ ] Dialog
+    - [ ] Budget
+    - [ ] Expense
+- [ ] Side Tab
 
 ### Style
-[ ] Buttons
-    [ ] Create/Update
-    [ ] Delete
-    [ ] Expand/Minimize
-[ ] Card
-    [ ] Header
-    [ ] Footer
+- [ ] Buttons
+    - [ ] Create/Update
+    - [ ] Delete
+    - [ ] Expand/Minimize
+- [ ] Card
+    - [ ] Header
+    - [ ] Footer
 
 
 ## Back End
 
-[ ] API
+- [ ] API
+    - [?] Budget
+    - [?] Expense
+- [ ] Controllers
+- [ ] Middleware

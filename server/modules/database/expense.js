@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise'
 
-class ExpenseRepository {
+export class ExpenseRepository {
     constructor() {
         this.pool = mysql.createPool({
             host: process.env.DB_HOST,
