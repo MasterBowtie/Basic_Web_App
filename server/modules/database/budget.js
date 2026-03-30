@@ -40,7 +40,7 @@ export class BudgetRepository {
     // READ Budget
     async getBudget(budgetId) {
         var[rows] = await this.pool.execute(
-            `SELECT *,
+            `SELECT *
             FROM budget
             WHERE budget_id = ?`
             , [budgetId]

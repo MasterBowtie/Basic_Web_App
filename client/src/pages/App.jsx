@@ -5,7 +5,7 @@ import { Accordian } from '../components/Accordian'
 import { SVGGlass, SVGPlus, SVGX } from '../components/SVG'
 import { HiddenInput } from '../components/Input'
 import { Dialog } from '../components/Dialog'
-import Budget from './Budget'
+import {Budget, BudgetCard} from './Budget'
 import { useApi } from '../utils/api'
 
 
@@ -15,14 +15,22 @@ function App() {
   const [cards, setCards] = useState([])
   const [budets, setBudgets] = useState([])
   const [budgetActive, setBudget] = useState(false)
-  const [budgetTitle, setBudgetTitle] = useState("")
+  const [budgetId, setBudgetId] = useState(0)
   const api = useApi();
 
   useEffect(() => {
     const controller = new AbortController()
+    api.get("budget")
+    .then((res) => {console.log(res)})
+    .catch(err => {
+        if (err.name !== "AbortError") {
+          console.error(err)
+        }
+      })
+
     api.get("budget/ids")
       .then((res) => {
-        console.log(res);
+        setBudgets(res);
       }).catch(err => {
         if (err.name !== "AbortError") {
           console.error(err)
@@ -36,33 +44,27 @@ function App() {
   return (
     <div id='App'>
       <Dialog open={budgetActive}>
-        <Budget onClose={()=> setBudget(false)} title={budgetTitle}/>
+        <Budget onClose={()=> setBudget(false)} budgetId={budgetId}/>
       </Dialog>
       <h1>Main Basic Page</h1>
 
       <CardMasonry>
-        {cards.map((t, i)=> 
-          <Card key={t}>
+
+
+        {budets.map((t, i)=> 
+          <Card key={t.budget_id}>
             <div className='card-header'>
-              <HiddenInput id={`input-${t}`} value={`Title ${i}`} className={"header"}/>
-              <SVGGlass className={"toggle"} onClick={()=> {setBudget(true); setBudgetTitle(document.getElementById(`input-${t}`).value);console.log(budgetTitle);}}/>
+              <p className={"header"}>{t.budget_name}</p>
+              <SVGGlass className={"toggle"} onClick={()=> {setBudget(true); setBudgetId(t.budget_id)}}/>
             </div>
-            <Accordian>
-              <div style={{display: 'flex', gap: "1em"}}>
-                <p>body</p>
-                <p>part 1</p>
-              </div>
-              <p>body</p>
-              <p>body</p>
-            </Accordian>
           </Card>
         )}
-        <Card style={{display: "flex", justifyContent: "center"}}>
+        {/* <Card style={{display: "flex", justifyContent: "center"}}>
           <SVGPlus style={{fill: "#000000"}} className={"SVGButton"} onClick={()=> {
             setCount((count) => count + 1); 
             setCards([...cards, `card-${count}`])
             }}/>
-        </Card>
+        </Card> */}
       </CardMasonry>
     </div>
   )

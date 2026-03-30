@@ -10,6 +10,7 @@ class Api {
 
         if (method === "POST" || method === "PUT" || method === "DELETE") {
             options.body = JSON.stringify(body);
+            console.log("BODY", options.body);
         }
 
         const res = await fetch (url, {
@@ -31,19 +32,19 @@ class Api {
     }
 
     get(uri) {
-        return this.makeRequest(uri, "GET");
+        return this.makeRequest("api/"+uri, "GET");
     }
 
     post(uri, body) {
-        return this.makeRequest(uri, "POST", body);
+        return this.makeRequest("api/"+uri, "POST", body);
     }
 
     put(uri, body) {
-        return this.makeRequest(uri, "PUT", body);
+        return this.makeRequest("api/"+uri, "PUT", body);
     }
 
     delete(uri, body) {
-        return this.makeRequest(uri, "DELETE", body);
+        return this.makeRequest("api/"+uri, "DELETE", body);
     }
 }
 
