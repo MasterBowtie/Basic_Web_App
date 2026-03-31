@@ -20,10 +20,12 @@ export class BudgetRepository {
         return this.instance;
     }
 
-    async getBudgets() {
+    async getBudgets(active) {
+        var query = `SELECT budget_id
+            FROM budget ${active === "true" ? "WHERE budget_active = 1": ""}`;
+            console.log(query);
         var [rows] = await this.pool.execute(
-            `SELECT budget_id, budget_name
-            FROM budget`
+            query
         );
         return rows;
     }
@@ -54,7 +56,7 @@ export class BudgetRepository {
             `UPDATE budget SET budget_active = 1 WHERE budget_id = ?`,
             [budget_id]
         );
-        return true;
+        return {budget_active: true};
     }
 
     // DISABLE budget 
@@ -63,7 +65,7 @@ export class BudgetRepository {
             `UPDATE budget SET budget_active = 0 WHERE budget_id = ?`,
             [budget_id]
         );
-        return true;
+        return {budget_active: false};
     }
 
     // DELETE budget
@@ -78,9 +80,9 @@ export class BudgetRepository {
     // Get expenses for a budget
     async getExpensesForBudget(budgetId) {
         const [rows] = await this.pool.execute(
-            `SELECT expense_id, expense_name
-            FROM expense 
-            JOIN expense_budget eb ON expense.expense_id = eb.expense_id
+            `SELECT e.*
+            FROM expense e
+            JOIN expense_budget eb ON e.expense_id = eb.expense_id
             WHERE eb.budget_id = ?`,
             [budgetId]
         );

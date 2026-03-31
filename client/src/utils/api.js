@@ -10,7 +10,7 @@ class Api {
 
         if (method === "POST" || method === "PUT" || method === "DELETE") {
             options.body = JSON.stringify(body);
-            console.log("BODY", options.body);
+            // console.log("BODY", options.body);
         }
 
         const res = await fetch (url, {
@@ -23,7 +23,7 @@ class Api {
         });
 
         if (!res.ok) {
-            console.log(res)
+            // console.log(res)
             const errorBody = await res.json();
             throw new Error(errorBody.message || `HTTP error! status: ${res.status}`);
         }

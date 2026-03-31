@@ -9,18 +9,29 @@ export function buildBudgetController() {
         return res.json({results: "Hello Budget!"})
     })
 
-    router.get('/ids', async (req, res) => {
-        var results = await budgetRepository.getBudgets()
+    router.get('/ids/:active', async (req, res) => {
+        var results = await budgetRepository.getBudgets(req.params.active)
         return res.json(results);
     })
 
     router.post("/id", async (req, res) => {
-        console.log("REQUEST BODY:", req.body);
-        console.log("REQUEST PARAMS:", req.params);
-        console.log("REQUEST QUERY:", req.query);
         var results = await budgetRepository.getBudget(req.body.id)
-        console.log("RESULTS:", results);
         return res.json(results);
+    })
+
+    router.post("/enable", async(req, res) => {
+        var result = await budgetRepository.activateBudget(req.body.id)
+        return res.json(result);
+    })
+
+    router.post("/disable", async (req, res) => {
+        var result = await budgetRepository.disableBudget(req.body.id)
+        return res.json(result);
+    })
+
+    router.post("/expenses", async (req, res) => {
+        var result = await budgetRepository.getExpensesForBudget(req.body.id)
+        return res.json(result)
     })
 
     return router;
