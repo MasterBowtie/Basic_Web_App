@@ -40,13 +40,9 @@ export class ExpenseRepository {
     // READ Expense
     async  getExpense(expenseId) {
         var [rows] = await this.pool.execute(
-            `SELECT e.*,
-            GROUP_CONCANT(eb.budget_id) as budgets
-            FROM expense e
-            LEFT JOIN expense_budget eb
-            ON e.expense_id = eb.expense_id
-            WHERE e.expense_id = ?
-            GROUP BY e.expense_id`,
+            `SELECT *
+            FROM expense 
+            WHERE expense_id = ?`,
             [expenseId]
         );
         return rows[0]

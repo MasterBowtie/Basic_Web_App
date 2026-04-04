@@ -15,15 +15,14 @@ function App() {
   const api = useApi();
 
   useEffect(() => {
-    console.log("FETCH: budget_ids")
-    // const controller = new AbortController()
+    const controller = new AbortController()
     api.get(`budget/ids?active=${active}`)
       .then((res) => {
         setBudgets(res);
       }).catch(err => {
-        // if (err.name !== "AbortError") {
+        if (err.name !== "AbortError") {
           console.error(err)
-        // }
+        }
       }) 
     
     return () => {
@@ -34,7 +33,9 @@ function App() {
 
   return (
     <div id='App'>
-      <BudgetDialog open={budgetActive} onClose={()=> setBudget(false)} budgetId={budgetId}/>
+      <dialog open={budgetActive}>
+        <BudgetDialog onClose={()=> setBudget(false)} budgetId={budgetId}/>
+      </dialog>
 
       <h1>Main Basic Page</h1>
 

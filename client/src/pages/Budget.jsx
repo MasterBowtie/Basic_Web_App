@@ -5,6 +5,7 @@ import { SVGX, SVGGlass } from "../components/SVG";
 import { useApi } from '../utils/api'
 import { Card } from "../components/Cards";
 import { Accordian } from "../components/Accordian";
+import { ExpenseItem } from "./Expense";
 
 
 function capitalize(s)
@@ -50,7 +51,7 @@ function BudgetDialog(props) {
         
         api.post("budget/expenses", {id: props.budgetId})
         .then((res) => {
-            // console.log("Expenses:", res)
+            console.log("Expenses:", res)
             setExpenses(res);
         }).catch(err => {
             if (err.name !== "AbortError") {
@@ -59,7 +60,7 @@ function BudgetDialog(props) {
         })
 
         return () => {abortController.abort()}
-    }, [])
+    }, [props.budgetId])
     
 
 
@@ -89,25 +90,23 @@ function BudgetDialog(props) {
     }
 
     return(
-        <dialog open={props.open}>
-            <div className="dialog body">
-            <div className='dialog header'>
-              <HiddenInput value={title} className="header"/>
-              <p>{period}</p>
-              <p>Spent/{limit}</p>
-              <SVGX onClick={props.onClose} className={"toggle"} style={{alignSelf: "flex-start"}}/>
-            </div>
-            <div>
-                Expenses go here
-            </div>
-            <div className="dialog footer">
-                <button onClick={() => {toggleActive()}}>{active? "Disable" : "Enable"}</button>
-                <button onClick={() => Save(false)}>Save</button>
-                <button onClick={() => Save(true)}>Save & Exit</button>
-                <button onClick={props.onClose}>Exit</button>
-            </div>
-            </div>
-        </dialog>
+        <div className="dialog body">
+        <div className='dialog header'>
+            <HiddenInput value={title} className="header"/>
+            <p>{period}</p>
+            <p>Spent/{limit}</p>
+            <SVGX onClick={props.onClose} className={"toggle"} style={{alignSelf: "flex-start"}}/>
+        </div>
+        <div>
+            {expenses.map((e, i) => <ExpenseItem key={e.expense_id} id={e.expense_id}/>)}
+        </div>
+        <div className="dialog footer">
+            <button onClick={() => {toggleActive()}}>{active? "Disable" : "Enable"}</button>
+            <button onClick={() => Save(false)}>Save</button>
+            <button onClick={() => Save(true)}>Save & Exit</button>
+            <button onClick={props.onClose}>Exit</button>
+        </div>
+        </div>
     )
 }
 

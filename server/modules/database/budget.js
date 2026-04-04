@@ -86,7 +86,7 @@ export class BudgetRepository {
             WHERE eb.budget_id = ?`,
             [budgetId]
         );
-        return [rows]
+        return rows;
     }
 
 }
