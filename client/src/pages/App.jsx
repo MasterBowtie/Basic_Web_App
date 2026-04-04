@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react'
 import '../css/App.css'
 import { Card, CardMasonry} from '../components/Cards'
-import { Dialog } from '../components/Dialog'
-import {Budget, BudgetCard} from './Budget'
+import {BudgetDialog, BudgetCard} from './Budget'
 import { useApi } from '../utils/api'
 import { SVGPlus } from '../components/SVG'
 
 
 
 function App() {
-  const [active, setActive] = useState("true");
+  const [active, setActive] = useState(true);
   const [budets, setBudgets] = useState([])
   const [budgetActive, setBudget] = useState(false)
   const [budgetId, setBudgetId] = useState(0)
@@ -17,8 +16,8 @@ function App() {
 
   useEffect(() => {
     console.log("FETCH: budget_ids")
-    const controller = new AbortController()
-    api.get(`budget/ids/${active}`)
+    // const controller = new AbortController()
+    api.get(`budget/ids?active=${active}`)
       .then((res) => {
         setBudgets(res);
       }).catch(err => {
@@ -27,15 +26,16 @@ function App() {
         // }
       }) 
     
-    return () => {controller.abort();}
+    return () => {
+      // controller.abort();
+      }
   }, [active])
 
 
   return (
     <div id='App'>
-      <Dialog open={budgetActive}>
-        <Budget onClose={()=> setBudget(false)} budgetId={budgetId}/>
-      </Dialog>
+      <BudgetDialog open={budgetActive} onClose={()=> setBudget(false)} budgetId={budgetId}/>
+
       <h1>Main Basic Page</h1>
 
       <CardMasonry>

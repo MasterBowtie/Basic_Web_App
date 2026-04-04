@@ -12,7 +12,7 @@ function capitalize(s)
     return s && String(s[0]).toUpperCase() + String(s).slice(1);
 }
 
-function Budget(props) {
+function BudgetDialog(props) {
     const api = useApi();
     const [title, setTitle] = useState("");
     const [period, setPeriod] = useState("");
@@ -24,14 +24,17 @@ function Budget(props) {
     const abortController = new AbortController();
 
 
-    if (!props.budgetId) {
-        return;
-    }
-    if (props.budgetId === 0) {
-        setTitle("New Title")
-    }
 
-    api.post("budget/id", {id: props.budgetId})
+
+    useEffect(() => {
+        if (!props.budgetId) {
+            return;
+        }
+        if (props.budgetId === 0) {
+            setTitle("New Title")
+        }
+
+        api.post("budget/id", {id: props.budgetId})
         .then((res) => {
             setTitle(res.budget_name);
             setLimit(res.budget_limit);
@@ -44,16 +47,19 @@ function Budget(props) {
                 console.error(err);
             }
         })
-    
-    api.post("budget/expenses", {id: props.budgetId})
+        
+        api.post("budget/expenses", {id: props.budgetId})
         .then((res) => {
-            console.log("Expenses:", res)
-            // TODO: Set and Build Expenses
+            // console.log("Expenses:", res)
+            setExpenses(res);
         }).catch(err => {
             if (err.name !== "AbortError") {
                 console.error(err);
             }
         })
+
+        return () => {abortController.abort()}
+    }, [])
     
 
 
@@ -83,23 +89,25 @@ function Budget(props) {
     }
 
     return(
-        <div className="dialog body">
-        <div className='dialog header'>
-          <HiddenInput value={title} className="header"/>
-          <p>{period}</p>
-          <p>Spent/{limit}</p>
-          <SVGX onClick={props.onClose} className={"toggle"} style={{alignSelf: "flex-start"}}/>
-        </div>
-        <div>
-            Expenses go here
-        </div>
-        <div className="dialog footer">
-            <button onClick={() => {toggleActive()}}>{active? "Disable" : "Enable"}</button>
-            <button onClick={() => Save(false)}>Save</button>
-            <button onClick={() => Save(true)}>Save & Exit</button>
-            <button onClick={props.onClose}>Exit</button>
-        </div>
-        </div>
+        <dialog open={props.open}>
+            <div className="dialog body">
+            <div className='dialog header'>
+              <HiddenInput value={title} className="header"/>
+              <p>{period}</p>
+              <p>Spent/{limit}</p>
+              <SVGX onClick={props.onClose} className={"toggle"} style={{alignSelf: "flex-start"}}/>
+            </div>
+            <div>
+                Expenses go here
+            </div>
+            <div className="dialog footer">
+                <button onClick={() => {toggleActive()}}>{active? "Disable" : "Enable"}</button>
+                <button onClick={() => Save(false)}>Save</button>
+                <button onClick={() => Save(true)}>Save & Exit</button>
+                <button onClick={props.onClose}>Exit</button>
+            </div>
+            </div>
+        </dialog>
     )
 }
 
@@ -114,14 +122,15 @@ function BudgetCard(props) {
     const abortController = new AbortController();
 
 
-    if (!props.budgetId) {
-        return;
-    }
-    if (props.budgetId === 0) {
-        setTitle("New Title")
-    }
-
-    api.post("budget/id", {id: props.budgetId})
+    useEffect(() => {
+        if (!props.budgetId) {
+            return;
+        }
+        if (props.budgetId === 0) {
+            setTitle("New Title")
+        }
+        
+        api.post("budget/id", {id: props.budgetId})
         .then((res) => {
             setTitle(res.budget_name);
             setLimit(res.budget_limit);
@@ -134,6 +143,8 @@ function BudgetCard(props) {
                 console.error(err);
             }
         })
+        return () => {abortController.abort()}
+    }, [])
 
 
     return (
@@ -155,4 +166,4 @@ function BudgetCard(props) {
     )
 }
 
-export { Budget, BudgetCard }
+export { BudgetDialog, BudgetCard }

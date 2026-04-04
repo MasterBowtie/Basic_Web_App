@@ -23,7 +23,7 @@ export class BudgetRepository {
     async getBudgets(active) {
         var query = `SELECT budget_id
             FROM budget ${active === "true" ? "WHERE budget_active = 1": ""}`;
-            console.log(query);
+            // console.log(query);
         var [rows] = await this.pool.execute(
             query
         );
@@ -80,7 +80,7 @@ export class BudgetRepository {
     // Get expenses for a budget
     async getExpensesForBudget(budgetId) {
         const [rows] = await this.pool.execute(
-            `SELECT e.*
+            `SELECT e.expense_id
             FROM expense e
             JOIN expense_budget eb ON e.expense_id = eb.expense_id
             WHERE eb.budget_id = ?`,

@@ -9,8 +9,9 @@ export function buildBudgetController() {
         return res.json({results: "Hello Budget!"})
     })
 
-    router.get('/ids/:active', async (req, res) => {
-        var results = await budgetRepository.getBudgets(req.params.active)
+    router.get('/ids', async (req, res) => {
+        // console.log(req.query)
+        var results = await budgetRepository.getBudgets(req.query.active? req.query.active: "false")
         return res.json(results);
     })
 
