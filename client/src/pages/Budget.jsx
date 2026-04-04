@@ -20,41 +20,41 @@ function Budget(props) {
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
     const [active, setActive] = useState(0);
+    const [expenses, setExpenses] = useState([]);
     const abortController = new AbortController();
 
-    useEffect(() => {
-        if (!props.budgetId) {
-            return;
-        }
-        if (props.budgetId === 0) {
-            setTitle("New Title")
-        }
 
-        api.post("budget/id", {id: props.budgetId})
-            .then((res) => {
-                setTitle(res.budget_name);
-                setLimit(res.budget_limit);
-                setPeriod(capitalize(res.budget_period));
-                setActive(res.budget_active);
-                setStart(res.budget_start);
-                setEnd(res.budget_end);
-            }).catch(err => {
-                if (err.name !== "AbortError") {
-                    console.error(err);
-                }
-            })
-        
-        api.post("budget/expenses", {id: props.budgetId})
-            .then((res) => {
-                console.log("Expenses:", res)
-            }).catch(err => {
-                if (err.name !== "AbortError") {
-                    console.error(err);
-                }
-            })
+    if (!props.budgetId) {
+        return;
+    }
+    if (props.budgetId === 0) {
+        setTitle("New Title")
+    }
 
-        return () => {abortController.abort()}
-    },[props.budgetId])
+    api.post("budget/id", {id: props.budgetId})
+        .then((res) => {
+            setTitle(res.budget_name);
+            setLimit(res.budget_limit);
+            setPeriod(capitalize(res.budget_period));
+            setActive(res.budget_active);
+            setStart(res.budget_start);
+            setEnd(res.budget_end);
+        }).catch(err => {
+            if (err.name !== "AbortError") {
+                console.error(err);
+            }
+        })
+    
+    api.post("budget/expenses", {id: props.budgetId})
+        .then((res) => {
+            console.log("Expenses:", res)
+            // TODO: Set and Build Expenses
+        }).catch(err => {
+            if (err.name !== "AbortError") {
+                console.error(err);
+            }
+        })
+    
 
 
 
@@ -113,30 +113,28 @@ function BudgetCard(props) {
     const [active, setActive] = useState(0);
     const abortController = new AbortController();
 
-    useEffect(() => {
-        if (!props.budgetId) {
-            return;
-        }
-        if (props.budgetId === 0) {
-            setTitle("New Title")
-        }
 
-        api.post("budget/id", {id: props.budgetId})
-            .then((res) => {
-                setTitle(res.budget_name);
-                setLimit(res.budget_limit);
-                setPeriod(capitalize(res.budget_period));
-                setActive(res.budget_active);
-                setStart(res.budget_start);
-                setEnd(res.budget_end);
-            }).catch(err => {
-                if (err.name !== "AbortError") {
-                    console.error(err);
-                }
-            })
-        // TODO: query expenses
-        return () => {abortController.abort()}
-    },[props.budgetId])
+    if (!props.budgetId) {
+        return;
+    }
+    if (props.budgetId === 0) {
+        setTitle("New Title")
+    }
+
+    api.post("budget/id", {id: props.budgetId})
+        .then((res) => {
+            setTitle(res.budget_name);
+            setLimit(res.budget_limit);
+            setPeriod(capitalize(res.budget_period));
+            setActive(res.budget_active);
+            setStart(res.budget_start);
+            setEnd(res.budget_end);
+        }).catch(err => {
+            if (err.name !== "AbortError") {
+                console.error(err);
+            }
+        })
+
 
     return (
         <Card>
